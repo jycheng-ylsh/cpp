@@ -13,7 +13,78 @@
 .code .tok-comment{color:#9399B2}
 .code .tok-operator{color:#89DCEB}
 .code .tok-type{color:#F9E2AF}
-</style></head><body><header><strong>C++ 程式設計｜互動講義</strong><a href="https://jycheng-ylsh.github.io/cpp/" rel="noopener" target="_blank">原 C++ 網站 ↗</a></header><div class="layout"><aside><b>CH 04 · 章節導覽</b><nav><a href="#intro">01 建立概念</a><a href="#syntax">02 認識語法</a><a href="#operators">03 運算子</a><a href="#example41">04 範例 4-1</a><a href="#example42">05 範例 4-2</a><a href="#example43">06 範例 4-3</a><a href="#practice">07 學生習題</a><a href="#challenge">08 延伸挑戰</a><a href="#review">09 章節複習</a></nav><p style="font-size:12px;color:#68778d">試作版 V1.11 · 可離線開啟｜依原講義第 1–9 頁編排</p></aside><main><div class="hero"><div class="eyebrow">C / C++ PROGRAMMING · CHAPTER 04</div><h1>if 條件判斷</h1><p>當程式需要「做決定」時，我們可以用 if 讓它根據條件走不同的路。從觀念、語法、範例到獨立練習，逐步學會寫出判斷程式。</p><a class="pill" href="#intro">概念建立</a><a class="pill" href="#syntax">語法示範</a><a class="pill" href="#example41">範例</a><a class="pill" href="#practice">習題</a><a class="pill" href="#challenge">延伸挑戰</a><a class="pill source-doc" href="ch4-if條件判斷.docx" download>原始講義 ↗</a></div><section id="intro"><h2>01｜建立概念</h2><p class="sub">原講義第 1 頁 · 程式流程控制</p><div class="cards"><div class="card"><b>① 循序式</b>程式一行接著一行，按照順序執行。</div><div class="card"><b>② 條件式</b>條件符合才執行，例如 <code>if</code>。</div><div class="card"><b>③ 迴路式</b>重複執行流程，例如 <code>while</code>、<code>for</code>。</div></div><p class="note">本章專注於「條件式」；迴路式將在後續章節介紹。</p></section><section id="syntax"><h2>02｜認識 if 的三種語法</h2><p class="sub">原講義第 1 頁 · 點選語法切換比較</p><div class="tabs"><button class="active" data-tab="0">if</button><button data-tab="1">if ... else</button><button data-tab="2">if ... else if ... else</button></div><div id="syntax-desc"></div><p class="sub">以下為語法示意：中文「條件」「條件1」「條件2」需替換成實際 C++ 判斷式，才能編譯執行。</p><pre class="code" id="syntax-code"></pre><p class="note">若某分支要執行的程式碼只有一行，可以省略大括號；初學者建議保留，以利閱讀。</p></section><section id="operators"><h2>03｜條件與運算子</h2><p class="sub">原講義第 2 頁 · 關係運算子與邏輯運算子</p><table><tr><th>類型</th><th>運算子</th><th>意義</th></tr><tr><td>關係</td><td><code>&gt; &lt; &gt;= &lt;=</code></td><td>大於、小於、大於等於、小於等於</td></tr><tr><td>關係</td><td><code>== !=</code></td><td>等於、不等於</td></tr><tr><td>邏輯</td><td><code>&amp;&amp;</code></td><td>且，兩個條件都成立</td></tr><tr><td>邏輯</td><td><code>||</code></td><td>或，至少一個條件成立</td></tr><tr><td>邏輯</td><td><code>!</code></td><td>否定條件</td></tr></table></section><section id="example41"><h2>04｜範例 4-1</h2><p class="sub">原講義第 2 頁 · 單一 if 條件判斷</p><div class="split"><div class="demo"><label>輸入數字：<input id="num" type="number" value="5"/></label><p><button class="btn primary" id="run-num">執行條件模擬</button></p><div aria-live="polite" class="result" id="num-result"></div><p style="font-size:13px;color:#60738b">請再試 0、-3、8，觀察差異。</p></div><div class="flow"><div class="node">輸入 num</div><div class="arrow">↓</div><div class="diamond">num &gt; 0 ?</div><div class="arrow">↓</div><div class="node" id="flow-result">等待測試</div></div></div><details><summary>查看範例 4-1 C++ 程式碼</summary><pre class="code">#include &lt;iostream&gt;
+
+/* V1.13 interactive operators */
+#operators h3{margin-top:28px;border-bottom:1px solid var(--line);padding-bottom:6px}
+#operators .op-scroll{overflow-x:auto}#operators .op-scroll table{min-width:480px}
+#operators .op-demo{background:#f0f6ff;border:1px solid #cfe1f7;border-radius:14px;padding:18px;margin:14px 0}
+#operators .op-inputs{display:flex;flex-wrap:wrap;gap:14px;margin:12px 0}#operators .op-inputs label{display:flex;flex-direction:column;gap:5px;flex:1 1 130px;font-weight:600}
+#operators input[type=number],#operators select{padding:8px 10px;min-width:0;width:100%;border:1px solid #b7c8df;border-radius:8px;font:inherit;background:#fff}
+#operators .op-output{background:#1E1E2E;color:#CDD6F4;border-radius:12px;padding:16px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:12px 0}
+#operators .op-output code{font:16px Consolas,monospace;color:#CDD6F4;overflow-wrap:anywhere}#operators .op-output strong{font-size:20px}#operators .op-output span{color:#A6ADC8;font-size:13px}
+#operators .op-true{color:#A6E3A1!important}#operators .op-false{color:#F38BA8!important}
+#operators .op-cases{display:grid;grid-template-columns:1fr;gap:12px}#operators .op-case{min-width:0}#operators .op-case b{color:#205eac}
+#operators .grade-sliders{display:grid;gap:10px}#operators .grade-sliders label{display:grid;grid-template-columns:3em minmax(60px,1fr) 2em 1.5em;align-items:center;gap:10px}#operators .grade-sliders input{width:100%;accent-color:#7863bf}#operators .op-steps{margin-top:16px;background:white;border:1px solid #d2e0f1;border-radius:10px;padding:12px}#operators .op-steps div{padding:5px 0}#operators .op-steps div:last-child{border-top:1px solid #d2e0f1;margin-top:6px;padding-top:12px;font-weight:700}#operators .truth-table tr.selected{background:#e6e0fa}#operators .truth-table td:last-child{font-weight:700}
+</style></head><body><header><strong>C++ 程式設計｜互動講義</strong><a href="https://jycheng-ylsh.github.io/cpp/" rel="noopener" target="_blank">原 C++ 網站 ↗</a></header><div class="layout"><aside><b>CH 04 · 章節導覽</b><nav><a href="#intro">01 建立概念</a><a href="#syntax">02 認識語法</a><a href="#operators">03 運算子</a><a href="#example41">04 範例 4-1</a><a href="#example42">05 範例 4-2</a><a href="#example43">06 範例 4-3</a><a href="#practice">07 學生習題</a><a href="#challenge">08 延伸挑戰</a><a href="#review">09 章節複習</a></nav><p style="font-size:12px;color:#68778d">試作版 V1.13 · 可離線開啟｜依原講義第 1–9 頁編排</p></aside><main><div class="hero"><div class="eyebrow">C / C++ PROGRAMMING · CHAPTER 04</div><h1>if 條件判斷</h1><p>當程式需要「做決定」時，我們可以用 if 讓它根據條件走不同的路。從觀念、語法、範例到獨立練習，逐步學會寫出判斷程式。</p><a class="pill" href="#intro">概念建立</a><a class="pill" href="#syntax">語法示範</a><a class="pill" href="#example41">範例</a><a class="pill" href="#practice">習題</a><a class="pill" href="#challenge">延伸挑戰</a><a class="pill source-doc" href="ch4-if條件判斷.docx" download>原始講義 ↗</a></div><section id="intro"><h2>01｜建立概念</h2><p class="sub">原講義第 1 頁 · 程式流程控制</p><div class="cards"><div class="card"><b>① 循序式</b>程式一行接著一行，按照順序執行。</div><div class="card"><b>② 條件式</b>條件符合才執行，例如 <code>if</code>。</div><div class="card"><b>③ 迴路式</b>重複執行流程，例如 <code>while</code>、<code>for</code>。</div></div><p class="note">本章專注於「條件式」；迴路式將在後續章節介紹。</p></section><section id="syntax"><h2>02｜認識 if 的三種語法</h2><p class="sub">原講義第 1 頁 · 點選語法切換比較</p><div class="tabs"><button class="active" data-tab="0">if</button><button data-tab="1">if ... else</button><button data-tab="2">if ... else if ... else</button></div><div id="syntax-desc"></div><p class="sub">以下為語法示意：中文「條件」「條件1」「條件2」需替換成實際 C++ 判斷式，才能編譯執行。</p><pre class="code" id="syntax-code"></pre><p class="note">若某分支要執行的程式碼只有一行，可以省略大括號；初學者建議保留，以利閱讀。</p></section><section id="operators"><h2>03｜條件與運算子</h2><p class="sub">原講義第 2 頁 · 從比較、真假判斷到複合條件（新增互動練習）</p>
+<p>在 C++ 中，<code>if</code> 會根據條件的真假決定是否執行程式。條件運算式的結果為 <code>true</code>（真）或 <code>false</code>（假）。例如：</p>
+<pre class="code">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score = 75;
+    if (score &gt;= 60) {
+        cout &lt;&lt; "及格" &lt;&lt; endl;
+    }
+    return 0;
+}</pre>
+<h3>3-1｜關係運算子：比較兩個數值</h3><p>關係運算子用來比較兩個值，結果只有 <code>true</code> 或 <code>false</code>。</p>
+<div class="op-scroll"><table><thead><tr><th>運算子</th><th>意義</th><th>範例</th><th>結果</th></tr></thead><tbody><tr><td><code>&gt;</code></td><td>大於</td><td><code>8 &gt; 5</code></td><td>true</td></tr><tr><td><code>&lt;</code></td><td>小於</td><td><code>8 &lt; 5</code></td><td>false</td></tr><tr><td><code>&gt;=</code></td><td>大於等於</td><td><code>8 &gt;= 8</code></td><td>true</td></tr><tr><td><code>&lt;=</code></td><td>小於等於</td><td><code>5 &lt;= 3</code></td><td>false</td></tr><tr><td><code>==</code></td><td>等於</td><td><code>8 == 8</code></td><td>true</td></tr><tr><td><code>!=</code></td><td>不等於</td><td><code>8 != 5</code></td><td>true</td></tr></tbody></table></div><p class="note"><strong>記住：</strong><code>=</code> 是指定值；<code>==</code> 才是比較是否相等。</p>
+<h3>3-2｜互動練習：比較運算</h3><div class="op-demo"><p>調整 A、B 與運算子，觀察條件結果如何改變。</p><div class="op-inputs"><label>數值 A <input type="number" id="op-a" value="80" step="any"></label><label>比較運算子 <select id="op-cmp" aria-label="比較運算子"><option value="&gt;=">&gt;=</option><option value="&gt;">&gt;</option><option value="&lt;">&lt;</option><option value="&lt;=">&lt;=</option><option value="==">==</option><option value="!=">!=</option></select></label><label>數值 B <input type="number" id="op-b" value="60" step="any"></label></div><div class="op-output" aria-live="polite"><code id="op-expression"></code><strong id="op-result"></strong><span id="op-explain"></span></div></div>
+<h3>3-3｜邏輯運算子：組合多個條件</h3><p>當判斷需要同時考慮兩個以上的條件，就可以使用邏輯運算子。</p><div class="op-scroll"><table><thead><tr><th>運算子</th><th>名稱</th><th>判斷規則</th></tr></thead><tbody><tr><td><code>&amp;&amp;</code></td><td>AND（且）</td><td>兩個條件都成立才為真</td></tr><tr><td><code>||</code></td><td>OR（或）</td><td>至少一個條件成立就為真</td></tr><tr><td><code>!</code></td><td>NOT（非）</td><td>將條件的真假反轉</td></tr></tbody></table></div>
+<div class="op-cases"><div class="op-case"><b>AND：兩科都及格</b><pre class="code">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int chi = 70, eng = 65;
+    if (chi &gt;= 60 &amp;&amp; eng &gt;= 60) {
+        cout &lt;&lt; "兩科都及格" &lt;&lt; endl;
+    }
+    return 0;
+}</pre></div><div class="op-case"><b>OR：至少一科達 90 分</b><pre class="code">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int chi = 88, eng = 95;
+    if (chi &gt;= 90 || eng &gt;= 90) {
+        cout &lt;&lt; "表現優異" &lt;&lt; endl;
+    }
+    return 0;
+}</pre></div><div class="op-case"><b>NOT：尚未及格</b><pre class="code">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int score = 55;
+    if (!(score &gt;= 60)) {
+        cout &lt;&lt; "尚未及格" &lt;&lt; endl;
+    }
+    return 0;
+}</pre></div></div>
+<h3>3-4｜互動真值表：AND、OR、NOT</h3><div class="op-demo"><p>切換條件 A、B 的真假，並選擇邏輯運算子。</p><div class="op-inputs"><label>條件 A <select id="logic-a"><option value="true">true</option><option value="false">false</option></select></label><label>邏輯運算子 <select id="logic-op"><option value="&amp;&amp;">&amp;&amp;（AND）</option><option value="||">||（OR）</option><option value="!">!（NOT A）</option></select></label><label>條件 B <select id="logic-b"><option value="false">false</option><option value="true">true</option></select></label></div><div class="op-output" aria-live="polite"><code id="logic-expression"></code><strong id="logic-result"></strong><span id="logic-explain"></span></div><div class="op-scroll"><table class="truth-table"><thead><tr><th>A</th><th>B</th><th id="truth-heading">A &amp;&amp; B</th></tr></thead><tbody id="truth-body"></tbody></table></div><p class="sub">NOT 只使用條件 A，因此切換 NOT 時，B 不影響結果。</p></div>
+<h3>3-5｜複合條件：國英數成績判斷</h3><p>符合以下任一條件即可獲得獎勵：<strong>三科都達 80 分</strong>，或者<strong>數學超過 95 分</strong>。</p><pre class="code">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int chi = 85, eng = 79, math = 96;
+    if ((chi &gt;= 80 &amp;&amp; eng &gt;= 80 &amp;&amp; math &gt;= 80) || (math &gt; 95)) {
+        cout &lt;&lt; "符合獎勵條件" &lt;&lt; endl;
+    } else {
+        cout &lt;&lt; "不符合獎勵條件" &lt;&lt; endl;
+    }
+    return 0;
+}</pre>
+<div class="op-demo"><p>拖曳滑桿，觀察兩組條件及最後的 OR 判斷。</p><div class="grade-sliders"><label>國文 <input id="op-chi" type="range" min="0" max="100" value="85"><output id="op-chi-val">85</output> 分</label><label>英文 <input id="op-eng" type="range" min="0" max="100" value="79"><output id="op-eng-val">79</output> 分</label><label>數學 <input id="op-math" type="range" min="0" max="100" value="96"><output id="op-math-val">96</output> 分</label></div><div class="op-steps"><div>三科都達 80 分：<strong id="op-all"></strong></div><div>數學超過 95 分：<strong id="op-special"></strong></div><div>最終結果（OR）：<strong id="op-final"></strong></div></div></div>
+<h3>3-6｜初學者常見的四個錯誤</h3><div class="op-scroll"><table><thead><tr><th>容易寫錯</th><th>建議寫法</th><th>原因</th></tr></thead><tbody><tr><td><code>if (score = 60)</code></td><td><code>if (score == 60)</code></td><td><code>=</code> 是指定，不是比較</td></tr><tr><td><code>if (60 &lt;= score &lt;= 100)</code></td><td><code>if (score &gt;= 60 &amp;&amp; score &lt;= 100)</code></td><td>C++ 不支援數學式的連鎖範圍比較</td></tr><tr><td><code>if (score == 60 || 100)</code></td><td><code>if (score == 60 || score == 100)</code></td><td>每一側都要是完整的判斷式</td></tr><tr><td><code>if (score &gt;= 60 &amp;&amp; &lt;= 100)</code></td><td><code>if (score &gt;= 60 &amp;&amp; score &lt;= 100)</code></td><td>第二個條件不能省略變數</td></tr></tbody></table></div><p class="note"><strong>想一想：</strong><code>60 &lt;= score &lt;= 100</code> 為什麼可能得到 <code>true</code>，卻不是正確的範圍判斷？提示：C++ 會先算 <code>60 &lt;= score</code>，其結果再與 <code>100</code> 比較。</p>
+</section><section id="example41"><h2>04｜範例 4-1</h2><p class="sub">原講義第 2 頁 · 單一 if 條件判斷</p><div class="split"><div class="demo"><label>輸入數字：<input id="num" type="number" value="5"/></label><p><button class="btn primary" id="run-num">執行條件模擬</button></p><div aria-live="polite" class="result" id="num-result"></div><p style="font-size:13px;color:#60738b">請再試 0、-3、8，觀察差異。</p></div><div class="flow"><div class="node">輸入 num</div><div class="arrow">↓</div><div class="diamond">num &gt; 0 ?</div><div class="arrow">↓</div><div class="node" id="flow-result">等待測試</div></div></div><details><summary>查看範例 4-1 C++ 程式碼</summary><pre class="code">#include &lt;iostream&gt;
 using namespace std;
 int main() {
     float num;
@@ -119,7 +190,7 @@ int main() {
 <button class="btn primary" id="quiz-check" type="button">檢查三題答案</button>
 <button class="btn" id="quiz-reset" type="button">重新作答</button>
 <div id="quiz-result" aria-live="polite" role="status"></div>
-</div><p class="note">本頁為 A＋B 教學網站 V1.12：互動模擬在瀏覽器執行，並非 C++ 線上編譯器。學生可使用既有題庫平台提交程式。</p></section></main></div><footer>CH4 · if 條件判斷｜互動講義試作版 V1.12</footer><script>
+</div><p class="note">本頁為 A＋B 教學網站 V1.13：互動模擬在瀏覽器執行，並非 C++ 線上編譯器。學生可使用既有題庫平台提交程式。</p></section></main></div><footer>CH4 · if 條件判斷｜互動講義試作版 V1.13</footer><script>
 const syntax=[["只有條件成立時，才執行指定程式碼。", "#include <iostream>\nusing namespace std;\n\nint main() {\n    //if之前的程式碼\n\n    if (條件) {\n        //條件成立時要執行的程式碼\n    }\n    return 0;\n}"], ["條件成立與不成立，分別執行不同程式碼。", "#include <iostream>\nusing namespace std;\n\nint main() {\n    //if之前的程式碼\n\n    if (條件) {\n        //條件成立時要執行的程式碼\n    } else {\n        //條件不成立時要執行的程式碼\n    }\n    return 0;\n}"], ["依序檢查多個條件；第一個成立的分支執行後便結束這組判斷。", "#include <iostream>\nusing namespace std;\n\nint main() {\n    //if之前的程式碼\n\n    if (條件1) {\n        //條件1成立時要執行的程式碼\n    } else if (條件2) {\n        //條件2成立時要執行的程式碼\n    } else {\n        //所有條件不成立時要執行的程式碼\n    }\n    return 0;\n}"]];document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-tab]').forEach(x=>x.classList.remove('active'));b.classList.add('active');let i=+b.dataset.tab;document.getElementById('syntax-desc').textContent=syntax[i][0];setCode(document.getElementById('syntax-code'),syntax[i][1])});document.querySelector('[data-tab="0"]').click();function read(id){let e=document.getElementById(id);return e.value.trim()===''?NaN:Number(e.value)}document.getElementById('run-num').onclick=()=>{let n=read('num');document.getElementById('num-result').textContent=!Number.isFinite(n)?'請輸入數字':n>0?n+'是正數':'條件不成立，程式不輸出任何文字';document.getElementById('flow-result').textContent=!Number.isFinite(n)?'等待輸入':n>0?'成立 → 顯示正數':'不成立 → 跳過輸出'};document.getElementById('run-num2').onclick=()=>{let n=read('num2');document.getElementById('num2-result').textContent=!Number.isFinite(n)?'請輸入數字':n>0?'正數':n<0?'負數':'零'};document.getElementById('grade-run').onclick=()=>{let x=['chi','eng','math'].map(read);document.getElementById('grade-result').textContent=x.some(v=>!Number.isFinite(v))?'請輸入三科成績':x.every(v=>v>=80)?'三科都達標 → 很優秀':'至少一科未達 80 分 → 再加油!'};document.getElementById('quiz-check').onclick=()=>{const answers=[['b','% 是取餘數；n 除以 2 的餘數為 0 才是偶數。'],['c','-3 不是正數也不是零，因此執行最後的 else，輸出「負數」。'],['a','先用 && 判斷三科是否都達 80 分，再用 || 表示只要其中一組條件成立即可。雖然英文只有 79 分，但數學 96 分 > 95 分，因此整個條件成立。']];let score=0;let missing=0;answers.forEach(([correct,reason],i)=>{let x=document.querySelector('input[name=q'+(i+1)+']:checked');let feedback=document.getElementById('quiz-feedback-'+(i+1));if(!x){missing++;feedback.textContent='尚未作答。';feedback.className='quiz-feedback pending';}else if(x.value===correct){score++;feedback.textContent='答對了！'+reason;feedback.className='quiz-feedback correct';}else{feedback.textContent='再想想：'+reason;feedback.className='quiz-feedback incorrect';}});document.getElementById('quiz-result').textContent='答對 '+score+' / 3 題'+(missing?'（尚有 '+missing+' 題未作答）':'')+'。';};document.getElementById('quiz-reset').onclick=()=>{document.querySelectorAll('#chapter-quiz input[type=radio]').forEach(x=>x.checked=false);document.querySelectorAll('.quiz-feedback').forEach(x=>{x.textContent='';x.className='quiz-feedback'});document.getElementById('quiz-result').textContent='';};
 const qs=[['4-1','5 的倍數','輸入整數 n，判斷 n 是否為 5 的倍數。','使用取餘數運算子 %。'],['4-2','奇數與偶數','輸入整數 n，判斷 n 是偶數或奇數。','想想 n % 2 的結果。','a012'],['4-3','59 分調整','輸入整數成績 s；59 分自動加 1 分，其餘成績不變。','只有 s == 59 才調整。','a011'],['4-4','三數最小值','輸入 a、b、c 三個數字，顯示最小值。','可先假設第一個數最小，再逐一比較。','a014'],['4-5','三數最大值','輸入三個整數，顯示最大值。','沿用最小值題的比較概念。','a015'],['4-6','水果購物','蘋果每顆 15 元、橘子每顆 5 元，預算 500 元；依購買數量判斷是否足夠，足夠時顯示找零。','先計算總價，再比較總價是否大於 500。'],['4-7','球速與球路','輸入球速（英哩）；≥89 顯示直球或伸卡球，80～未滿89 顯示滑球或變速球，其餘顯示未知。','用 if...else if...else 依序判斷。'],['4-8','成績等第','輸入成績，依 90、80、70、60 分界線顯示優、甲、乙、丙、丁。','從高分往低分依序判斷。','a017'],['4-9','BMI 分類','輸入身高與體重，計算 BMI；依講義 18.5、24.9 的區間顯示訊息。','先算 BMI，再依區間判斷。'],['4-10','外匯換算','輸入台幣金額與欲換算的幣種（美金或日幣），依講義示例匯率換算。','先判斷幣種，再選用相對應匯率。'],['4-11','閏年判斷','輸入西元年，判斷平年或閏年。','400 的倍數，或 4 的倍數且不是 100 的倍數。','a016'],['4-12','簡易計算機','輸入兩個數字及運算子，依 +、-、*、/ 顯示運算結果。','用 char 變數儲存運算子，再以 if 分支。','a032'],['4-13','因數判斷','輸入整數 m、n，判斷 m 是否為 n 的因數。','思考 n % m；也要留意除數不能是 0。'],['4-14','3 與 5 的倍數','輸入整數，分辨同時為 3、5 倍數、只有 3 倍數、只有 5 倍數，或皆不是。','優先判斷兩個條件都成立的情況。']];document.getElementById('questions').innerHTML=qs.map(q=>`<details class="question"><summary>習題 ${q[0]}｜${q[1]}</summary><p>${q[2]}</p><details><summary>需要提示？</summary><div class="answer">${q[3]}</div></details>${q[4]?`<p><a target="_blank" rel="noopener" href="http://35.72.96.204/ShowProblem?problemid=${q[4]}">前往原講義線上題目 ${q[4]} ↗</a></p>`:''}<p class="meta">先獨立完成程式，再展開提示。</p></details>`).join('');const extra=[['a013','成績分佈'],['a018','下午茶時間'],['a019','刮刮樂兌獎（一）'],['a020','刮刮樂兌獎（二）'],['a031','全民公投'],['a033','故障的計算機'],['a036','公平的戰役（1 行版）'],['z003','A-ch1-3-熱量攝取檢測'],['z012','B-ch1-3-皇后們的午後'],['z020','ch1_3_bmi_檢測'],['z309','雙向溫度轉換器'],['z310','理想體重計算'],['z311','電動車充電費率計算'],['z312','機車稅金查詢']];document.getElementById('links').innerHTML=extra.map(([id,title])=>`<div class="question" style="margin:8px 0;padding:10px 14px"><a href="http://35.72.96.204/ShowProblem?problemid=${id}" target="_blank" rel="noopener"><strong>${id}：${title}</strong> ↗</a></div>`).join('');document.getElementById('run-num').click();document.getElementById('run-num2').click();document.getElementById('grade-run').click();
 function highlightCppLine(line, parent){
@@ -151,4 +222,40 @@ function setCode(el,code){
   });
 }
 document.querySelectorAll('pre.code:not(#syntax-code)').forEach(el=>setCode(el,el.textContent));
+
+// V1.13: Interactive operators (independent of chapter examples and quiz)
+(function(){
+ const $=id=>document.getElementById(id);
+ const resultStyle=(el,yes)=>{el.classList.toggle('op-true',yes);el.classList.toggle('op-false',!yes)};
+ function updateComparison(){
+  const a=$('op-a').value,b=$('op-b').value,op=$('op-cmp').value;
+  if(a.trim()===''||b.trim()===''||!Number.isFinite(Number(a))||!Number.isFinite(Number(b))){$('op-expression').textContent='請輸入有效數值';$('op-result').textContent='—';$('op-result').className='';$('op-explain').textContent='';return}
+  const x=Number(a),y=Number(b),r=op==='>'?x>y:op==='<'?x<y:op==='>='?x>=y:op==='<='?x<=y:op==='=='?x===y:x!==y;
+  $('op-expression').textContent=a+' '+op+' '+b;$('op-result').textContent=String(r);resultStyle($('op-result'),r);$('op-explain').textContent=r?'條件成立（1）':'條件不成立（0）';
+ }
+ ['op-a','op-b','op-cmp'].forEach(id=>$(id).addEventListener('input',updateComparison));updateComparison();
+ function evalLogic(a,b,op){return op==='&&'?a&&b:op==='||'?a||b:!a}
+ function updateLogic(){
+  const a=$('logic-a').value==='true',b=$('logic-b').value==='true',op=$('logic-op').value;
+  $('logic-b').disabled=op==='!';const r=evalLogic(a,b,op);
+  $('logic-expression').textContent=op==='!'?'!'+String(a):String(a)+' '+op+' '+String(b);
+  $('logic-result').textContent=String(r);resultStyle($('logic-result'),r);
+  $('logic-explain').textContent=op==='&&'?'兩個條件都成立才為真':op==='||'?'至少一個條件成立就為真':'將 A 的真假反轉';
+  $('truth-heading').textContent=op==='!'?'!A':'A '+op+' B';
+  const tbody=$('truth-body');tbody.textContent='';
+  for(const [x,y] of [[true,true],[true,false],[false,true],[false,false]]){
+   const tr=document.createElement('tr');if(x===a&&(op==='!'||y===b))tr.className='selected';
+   for(const val of [String(x),String(y),String(evalLogic(x,y,op))]){const td=document.createElement('td');td.textContent=val;tr.appendChild(td)}tbody.appendChild(tr);
+  }
+ }
+ ['logic-a','logic-b','logic-op'].forEach(id=>$(id).addEventListener('change',updateLogic));updateLogic();
+ function updateGrades(){
+  const vals=['chi','eng','math'].map(k=>{const n=Number($('op-'+k).value);$('op-'+k+'-val').textContent=n;return n});
+  const [chi,eng,math]=vals,all=chi>=80&&eng>=80&&math>=80,special=math>95;
+  $('op-all').textContent=String(all);resultStyle($('op-all'),all);
+  $('op-special').textContent=String(special);resultStyle($('op-special'),special);
+  $('op-final').textContent=all||special?'符合獎勵條件':'不符合獎勵條件';resultStyle($('op-final'),all||special);
+ }
+ ['chi','eng','math'].forEach(k=>$('op-'+k).addEventListener('input',updateGrades));updateGrades();
+})();
 </script></body></html>
