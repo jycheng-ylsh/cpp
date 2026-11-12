@@ -38,6 +38,17 @@
 .code .tok-comment{color:#9399B2}
 .code .tok-operator{color:#89DCEB}
 .code .tok-type{color:#F9E2AF}
+
+/* Ch01 V1.4: discourage copying instructional code while keeping it readable. */
+.lesson-code-protected,
+.lesson-code-protected * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none;
+}
+.lesson-code-protected { cursor: default; }
+.lesson-code-protected::selection,
+.lesson-code-protected *::selection { background: transparent; }
 </style><style>.install-list li{margin-bottom:12px}.dev-settings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}.dev-panel{border:1px solid #dce4ef;background:#f8fbff;border-radius:12px;padding:14px}.dev-panel p{margin:8px 0 0}.reference-figure{margin:16px 0}.reference-figure img{display:block;width:100%;height:auto;border:1px solid #dce4ef;border-radius:10px}.reference-figure figcaption{font-size:13px;color:#617087;margin-top:6px}.dev-toolbar{max-width:300px}.dev-table-wrap{overflow-x:auto}.dev-table kbd{font-family:Consolas,monospace;background:#eaf2ff;padding:3px 7px;border-radius:5px;white-space:nowrap}.dev-key{cursor:pointer}@media(max-width:750px){.dev-settings{grid-template-columns:1fr}} </style></head><body><header><strong>C++ 程式設計｜互動講義</strong><a href="https://jycheng-ylsh.github.io/cpp/" target="_blank" rel="noopener">C++ 課程首頁 ↗</a></header><div class="layout"><aside><b>CH 01 · 章節導覽</b><nav><a href="#intro">01 認識程式設計</a><a href="#environment">02 開發環境與 Dev-C++</a><a href="#first">03 第一支 C++ 程式</a><a href="#compile">04 編譯、執行與除錯</a><a href="#structure">05 認識程式結構</a><a href="#cout">06 螢幕輸出 cout</a><a href="#escape">07 特殊控制字元</a><a href="#practice">08 學生實作練習</a><a href="#challenge">09 線上程式闖關</a><a href="#review">10 學習成果檢測</a></nav><p class="small muted">V1.1 · 單一 HTML，可離線閱讀與操作</p></aside><main><div class="hero"><div class="eyebrow">C / C++ PROGRAMMING · CHAPTER 01</div><h1>第 1 支程式</h1><p>從認識程式設計、開啟 Dev-C++，到寫出 Hello world，學會編譯、輸出文字與完成自己的第一份 C++ 作業。</p><a class="pill source-doc" href="https://docs.google.com/document/d/1b0UqRR-TnAdBdJ9N7tCMks7uc-Z4WgpbYwJapL7Cn1o/edit" target="_blank" rel="noopener">查看原始講義 ↗</a><a class="pill" href="#first">開始第一支程式</a><a class="pill" href="#practice">前往習題</a></div><section id="intro"><h2>01｜認識程式設計</h2><p>程式是人撰寫的一群指令，用來命令電腦完成工作、解決問題。例如在文書軟體中剪下、貼上文字，背後就有程式指令協助完成。</p><div class="cards"><div class="card"><b>程式（Program）</b>讓電腦依序執行的指令。</div><div class="card"><b>程式語言</b>人與電腦溝通、表達解題步驟的工具。</div><div class="card"><b>C / C++</b>本課程使用的程式語言，學習基本語法與解題方法。</div></div><h3>程式設計的基本流程</h3><div class="flow-inline"><span>分析問題</span> → <span>撰寫程式</span> → <span>編譯檢查</span> → <span>執行與測試</span></div><p class="note">本章先學會輸出文字，之後的章節再逐步加入變數、輸入、判斷與重複執行。</p></section><section id="environment"><h2>02｜開發環境與 Dev-C++</h2>
 <p>這門課透過 C/C++ 使電腦執行各種我們寫的指令（或函數）以解決問題。市面上有多種 C/C++ 程式的撰寫工具，例如 Dev-C++、CodeBlocks、Visual C++ 等；本課程使用 <b>Dev-C++ 這套軟體作為 C/C++ 程式的開發工具</b>。</p>
 <h3>安裝說明</h3>
@@ -119,4 +130,36 @@ function ch01RenderCode(el){
   el.classList.add('code-lines');
 }
 document.querySelectorAll('.code').forEach(ch01RenderCode);
+
+// Code samples in concept explanations (01-07) are read-only to encourage typing.
+// Exercises (08), challenge links (09), and the review quiz (10) remain unchanged.
+(function protectInstructionalCode(){
+  const lessonIds=['intro','environment','first','compile','structure','cout','escape'];
+  const protectedSelector='.lesson-code-protected';
+  lessonIds.forEach(id=>{
+    const section=document.getElementById(id);
+    if(!section)return;
+    section.querySelectorAll('.code, pre:not(.practice-box), code').forEach(el=>{
+      // Interactive code previews remain live, but are not selectable or one-click copyable.
+      el.classList.add('lesson-code-protected');
+      el.setAttribute('draggable','false');
+    });
+  });
+  const insideProtected=node=>{
+    const el=node && (node.nodeType===1?node:node.parentElement);
+    return Boolean(el && el.closest && el.closest(protectedSelector));
+  };
+  document.addEventListener('copy',ev=>{
+    const selection=window.getSelection();
+    if(insideProtected(ev.target) || (selection && (insideProtected(selection.anchorNode)||insideProtected(selection.focusNode)))){
+      ev.preventDefault();
+    }
+  },true);
+  document.addEventListener('cut',ev=>{if(insideProtected(ev.target))ev.preventDefault()},true);
+  document.addEventListener('dragstart',ev=>{if(insideProtected(ev.target))ev.preventDefault()},true);
+  document.addEventListener('contextmenu',ev=>{if(insideProtected(ev.target))ev.preventDefault()},true);
+  document.addEventListener('keydown',ev=>{
+    if((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==='c' && insideProtected(ev.target))ev.preventDefault();
+  },true);
+})();
 </script></body></html>
