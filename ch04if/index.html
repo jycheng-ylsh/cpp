@@ -25,7 +25,16 @@
 #operators .op-true{color:#A6E3A1!important}#operators .op-false{color:#F38BA8!important}
 #operators .op-cases{display:grid;grid-template-columns:1fr;gap:12px}#operators .op-case{min-width:0}#operators .op-case b{color:#205eac}
 #operators .grade-sliders{display:grid;gap:10px}#operators .grade-sliders label{display:grid;grid-template-columns:3em minmax(60px,1fr) 2em 1.5em;align-items:center;gap:10px}#operators .grade-sliders input{width:100%;accent-color:#7863bf}#operators .op-steps{margin-top:16px;background:white;border:1px solid #d2e0f1;border-radius:10px;padding:12px}#operators .op-steps div{padding:5px 0}#operators .op-steps div:last-child{border-top:1px solid #d2e0f1;margin-top:6px;padding-top:12px;font-weight:700}#operators .truth-table tr.selected{background:#e6e0fa}#operators .truth-table td:last-child{font-weight:700}
-</style></head><body><header><strong>C++ 程式設計｜互動講義</strong><a href="https://jycheng-ylsh.github.io/cpp/" rel="noopener" target="_blank">原 C++ 網站 ↗</a></header><div class="layout"><aside><b>CH 04 · 章節導覽</b><nav><a href="#intro">01 建立概念</a><a href="#syntax">02 認識語法</a><a href="#operators">03 運算子</a><a href="#example41">04 範例 4-1</a><a href="#example42">05 範例 4-2</a><a href="#example43">06 範例 4-3</a><a href="#practice">07 學生習題</a><a href="#challenge">08 延伸挑戰</a><a href="#review">09 章節複習</a></nav><p style="font-size:12px;color:#68778d">試作版 V1.13 · 可離線開啟｜依原講義第 1–9 頁編排</p></aside><main><div class="hero"><div class="eyebrow">C / C++ PROGRAMMING · CHAPTER 04</div><h1>if 條件判斷</h1><p>當程式需要「做決定」時，我們可以用 if 讓它根據條件走不同的路。從觀念、語法、範例到獨立練習，逐步學會寫出判斷程式。</p><a class="pill" href="#intro">概念建立</a><a class="pill" href="#syntax">語法示範</a><a class="pill" href="#example41">範例</a><a class="pill" href="#practice">習題</a><a class="pill" href="#challenge">延伸挑戰</a><a class="pill source-doc" href="ch4-if條件判斷.docx" download>原始講義 ↗</a></div><section id="intro"><h2>01｜建立概念</h2><p class="sub">原講義第 1 頁 · 程式流程控制</p><div class="cards"><div class="card"><b>① 循序式</b>程式一行接著一行，按照順序執行。</div><div class="card"><b>② 條件式</b>條件符合才執行，例如 <code>if</code>。</div><div class="card"><b>③ 迴路式</b>重複執行流程，例如 <code>while</code>、<code>for</code>。</div></div><p class="note">本章專注於「條件式」；迴路式將在後續章節介紹。</p></section><section id="syntax"><h2>02｜認識 if 的三種語法</h2><p class="sub">原講義第 1 頁 · 點選語法切換比較</p><div class="tabs"><button class="active" data-tab="0">if</button><button data-tab="1">if ... else</button><button data-tab="2">if ... else if ... else</button></div><div id="syntax-desc"></div><p class="sub">以下為語法示意：中文「條件」「條件1」「條件2」需替換成實際 C++ 判斷式，才能編譯執行。</p><pre class="code" id="syntax-code"></pre><p class="note">若某分支要執行的程式碼只有一行，可以省略大括號；初學者建議保留，以利閱讀。</p></section><section id="operators"><h2>03｜條件與運算子</h2><p class="sub">原講義第 2 頁 · 從比較、真假判斷到複合條件（新增互動練習）</p>
+
+/* Ch04 V1.16: 降低範例與完整程式碼直接複製的便利性 */
+pre.code:not(#syntax-code), pre.code:not(#syntax-code) *, pre.code:not(#syntax-code) .code-line, pre.code:not(#syntax-code) .code-line * {
+  user-select:none !important;
+  -webkit-user-select:none !important;
+  -webkit-touch-callout:none;
+}
+pre.code:not(#syntax-code) { cursor:default; }
+#syntax-code, #syntax-code * { user-select:text !important; -webkit-user-select:text !important; cursor:text; }
+</style></head><body><header><strong>C++ 程式設計｜互動講義</strong><a href="https://jycheng-ylsh.github.io/cpp/" rel="noopener" target="_blank">原 C++ 網站 ↗</a></header><div class="layout"><aside><b>CH 04 · 章節導覽</b><nav><a href="#intro">01 建立概念</a><a href="#syntax">02 認識語法</a><a href="#operators">03 運算子</a><a href="#example41">04 範例 4-1</a><a href="#example42">05 範例 4-2</a><a href="#example43">06 範例 4-3</a><a href="#practice">07 學生習題</a><a href="#challenge">08 延伸挑戰</a><a href="#review">09 章節複習</a></nav><p style="font-size:12px;color:#68778d">試作版 V1.16 · 可離線開啟｜依原講義第 1–9 頁編排</p></aside><main><div class="hero"><div class="eyebrow">C / C++ PROGRAMMING · CHAPTER 04</div><h1>if 條件判斷</h1><p>當程式需要「做決定」時，我們可以用 if 讓它根據條件走不同的路。從觀念、語法、範例到獨立練習，逐步學會寫出判斷程式。</p><a class="pill" href="#intro">概念建立</a><a class="pill" href="#syntax">語法示範</a><a class="pill" href="#example41">範例</a><a class="pill" href="#practice">習題</a><a class="pill" href="#challenge">延伸挑戰</a><a class="pill source-doc" href="ch4-if條件判斷.docx" download>原始講義 ↗</a></div><section id="intro"><h2>01｜建立概念</h2><p class="sub">原講義第 1 頁 · 程式流程控制</p><div class="cards"><div class="card"><b>① 循序式</b>程式一行接著一行，按照順序執行。</div><div class="card"><b>② 條件式</b>條件符合才執行，例如 <code>if</code>。</div><div class="card"><b>③ 迴路式</b>重複執行流程，例如 <code>while</code>、<code>for</code>。</div></div><p class="note">本章專注於「條件式」；迴路式將在後續章節介紹。</p></section><section id="syntax"><h2>02｜認識 if 的三種語法</h2><p class="sub">原講義第 1 頁 · 點選語法切換比較</p><div class="tabs"><button class="active" data-tab="0">if</button><button data-tab="1">if ... else</button><button data-tab="2">if ... else if ... else</button></div><div id="syntax-desc"></div><p class="sub">以下為語法示意：中文「條件」「條件1」「條件2」需替換成實際 C++ 判斷式，才能編譯執行。</p><pre class="code" id="syntax-code"></pre><p class="note">若某分支要執行的程式碼只有一行，可以省略大括號；初學者建議保留，以利閱讀。</p></section><section id="operators"><h2>03｜條件與運算子</h2><p class="sub">原講義第 2 頁 · 從比較、真假判斷到複合條件（新增互動練習）</p>
 <p>在 C++ 中，<code>if</code> 會根據條件的真假決定是否執行程式。條件運算式的結果為 <code>true</code>（真）或 <code>false</code>（假）。例如：</p>
 <pre class="code">#include &lt;iostream&gt;
 using namespace std;
@@ -257,5 +266,23 @@ document.querySelectorAll('pre.code:not(#syntax-code)').forEach(el=>setCode(el,e
   $('op-final').textContent=all||special?'符合獎勵條件':'不符合獎勵條件';resultStyle($('op-final'),all||special);
  }
  ['chi','eng','math'].forEach(k=>$('op-'+k).addEventListener('input',updateGrades));updateGrades();
+})();
+
+// 只對完整程式碼區塊進行一般操作限制，其他正文、題目與互動元件照常使用。
+(function protectInstructionalCode(){
+  const isProtected = target => target instanceof Element && Boolean(target.closest('pre.code:not(#syntax-code)'));
+  document.addEventListener('contextmenu', e => { if (isProtected(e.target)) e.preventDefault(); });
+  document.addEventListener('dragstart', e => { if (isProtected(e.target)) e.preventDefault(); });
+  document.addEventListener('selectstart', e => { if (isProtected(e.target)) e.preventDefault(); });
+  document.addEventListener('copy', e => {
+    const selection = window.getSelection();
+    if (isProtected(e.target) || (selection && Array.from(document.querySelectorAll('pre.code:not(#syntax-code)')).some(pre => {
+      for (let i = 0; i < selection.rangeCount; i++) {
+        if (selection.getRangeAt(i).intersectsNode(pre)) return true;
+      }
+      return false;
+    }))) e.preventDefault();
+  });
+  document.addEventListener('cut', e => { if (isProtected(e.target)) e.preventDefault(); });
 })();
 </script></body></html>
